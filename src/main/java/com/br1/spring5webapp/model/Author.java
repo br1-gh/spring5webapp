@@ -1,5 +1,7 @@
 package com.br1.spring5webapp.model;
 
+import org.springframework.data.annotation.PersistenceConstructor;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
@@ -16,6 +18,13 @@ public class Author {
 
     @ManyToMany(mappedBy = "authors")
     private Set<Book> books = new HashSet<>();
+
+    public Author() {}
+
+    @PersistenceConstructor
+    public Author(Long id) {
+        this.id = id;
+    }
 
     public Author(String firstName, String lastName) {
         this.firstName = firstName;

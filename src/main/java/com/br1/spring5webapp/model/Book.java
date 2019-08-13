@@ -1,6 +1,9 @@
 package com.br1.spring5webapp.model;
 
+import org.springframework.data.annotation.PersistenceConstructor;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -17,7 +20,14 @@ public class Book {
     @ManyToMany
     @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"),
     inverseJoinColumns = @JoinColumn(name = "author_id"))
-    private Set<Author> authors;
+    private Set<Author> authors = new HashSet<>();
+
+    public Book() {}
+
+    @PersistenceConstructor
+    public Book(Long id) {
+        this.id = id;
+    }
 
     public Book(String title, String isbn, String publisher) {
         this.title = title;
@@ -31,6 +41,9 @@ public class Book {
         this.publisher = publisher;
         this.authors = authors;
     }
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
